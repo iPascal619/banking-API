@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, UserRole } from './user.entity';
@@ -17,8 +21,11 @@ export class AuthService {
 
   async register(registerDto: RegisterDto): Promise<User> {
     const { fullName, nationalId, phone, email, password } = registerDto;
-    const existing = await this.userRepository.findOne({ where: [{ email }, { nationalId }] });
-    if (existing) throw new ConflictException('Email or National ID already exists');
+    const existing = await this.userRepository.findOne({
+      where: [{ email }, { nationalId }],
+    });
+    if (existing)
+      throw new ConflictException('Email or National ID already exists');
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = this.userRepository.create({
       fullName,
@@ -39,11 +46,17 @@ export class AuthService {
     return user;
   }
 
-  async login(loginDto: LoginDto): Promise<{ accessToken: string; refreshToken: string }> {
+  async login(
+    loginDto: LoginDto,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     const user = await this.validateUser(loginDto.email, loginDto.password);
     const payload = { sub: user.id, role: user.role };
-    const accessToken = await this.jwtService.signAsync(payload, { expiresIn: '15m' });
-    const refreshToken = await this.jwtService.signAsync(payload, { expiresIn: '7d' });
+    const accessToken = await this.jwtService.signAsync(payload, {
+      expiresIn: '15m',
+    });
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      expiresIn: '7d',
+    });
     return { accessToken, refreshToken };
   }
 }
