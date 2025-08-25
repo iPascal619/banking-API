@@ -26,17 +26,17 @@ export class AccountsController {
   @ApiBody({ type: CreateAccountDto })
   @ApiResponse({ status: 201, description: 'Account created.' })
   async create(
-    @Request() req,
+    @Request() req: any,
     @Body() dto: CreateAccountDto,
   ): Promise<Account> {
-    return this.accountsService.createAccount(req.user, dto);
+  return this.accountsService.createAccount(req.user as import('../auth/user.entity').User, dto);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 200, description: 'List user accounts.' })
-  async findAll(@Request() req): Promise<Account[]> {
-    return this.accountsService.getAccountsForUser(req.user.id);
+  async findAll(@Request() req: any): Promise<Account[]> {
+  return this.accountsService.getAccountsForUser((req.user as import('../auth/user.entity').User).id);
   }
 
   @Patch(':id/status')
