@@ -24,5 +24,4 @@ export class AuthController {
     return await this.authService.login(loginDto);
   }
 
-  // Refresh token endpoint can be added here
 }

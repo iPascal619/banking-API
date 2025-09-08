@@ -12,7 +12,7 @@ export class Transaction {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'enum', enum: TransactionType })
+  @Column({ type: 'varchar' })
   type: TransactionType;
 
   @Column({ type: 'decimal', precision: 18, scale: 2 })

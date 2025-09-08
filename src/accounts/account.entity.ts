@@ -25,7 +25,7 @@ export class Account {
   @Column({ type: 'decimal', precision: 18, scale: 2, default: 0 })
   balance: number;
 
-  @Column({ type: 'enum', enum: AccountStatus, default: AccountStatus.ACTIVE })
+  @Column({ type: 'varchar', default: AccountStatus.ACTIVE })
   status: AccountStatus;
 
   @ManyToOne(() => User, (user) => user.id, { eager: true })

@@ -34,7 +34,7 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
+  @Column({ type: 'varchar', default: UserRole.CUSTOMER })
   role: UserRole;
 
   @CreateDateColumn()
